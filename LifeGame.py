@@ -1,5 +1,6 @@
 from tkinter import *
 from random import choices
+import time
 
 def drawGrid(width, rows, surface):
     sizeBtwn = width // rows
@@ -20,7 +21,7 @@ def fillGrid(matrice, grid) :
     for i in range(len(matrice)):
         for j in range(len(matrice)):
             if matrice[i][j] == 1:
-                grid.create_rectangle(i * sizeBtwn, j * sizeBtwn, (i + 1) * sizeBtwn, (j + 1) * sizeBtwn, fill = 'red')
+                grid.create_rectangle(i * sizeBtwn, j * sizeBtwn, (i + 1) * sizeBtwn, (j + 1) * sizeBtwn, fill = 'red', tag = 'square')
 
 def initMatrice(rows, lifeProportion):
     values = [0, 1]
@@ -32,18 +33,26 @@ def initMatrice(rows, lifeProportion):
             print(matrice[i][j])
     return matrice
 
+def refreshGrid(grid, newMatrice, rows, surface):
+    grid.delete('square')
+    fillGrid(newMatrice, grid)
 
 def main():
     windowWidth = 800
     windowHeight = 600
+    rows = 20
     window = Tk()
     window.title('Window with canvas')
     window.geometry(f"{windowWidth}x{windowHeight}")
+
     gridFrame = Frame(window)
     gridFrame.pack(side = LEFT)
-    currentGrid = drawGrid(windowHeight, 20, gridFrame)
-    currentMatrice = initMatrice(20, 0.9)
-    fillGrid(currentMatrice, currentGrid)
+
+    matrice = initMatrice(20, 0.3)
+    mygrid = drawGrid(600, rows, gridFrame)
+    fillGrid(matrice, mygrid)
+    newMatrice = initMatrice(20, 0.7)
+    refreshGrid(mygrid, newMatrice, 20, gridFrame)
     window.mainloop()
 
 if __name__ == '__main__':
