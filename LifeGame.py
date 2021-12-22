@@ -2,18 +2,18 @@ from tkinter import *
 from random import choices
 
 
-def drawGrid(width, rows):
+def drawGrid(rows):
     for widget in gridFrame.winfo_children():
         widget.destroy()
-    sizeBtwn = width // rows
+    sizeBtwn = canvasWidth / rows
     x, y = 0, 0
 
-    grid = Canvas(gridFrame, width=width, height=width, background='white')
+    grid = Canvas(gridFrame, width=canvasWidth, height=canvasHeigth, background='white')
     for l in range(rows):
         x += sizeBtwn
         y += sizeBtwn
-        grid.create_line(x, 0, x, width)
-        grid.create_line(0, y, width, y)
+        grid.create_line(x, 0, x, canvasWidth)
+        grid.create_line(0, y, canvasWidth, y)
 
     grid.pack()
     return grid
@@ -22,7 +22,7 @@ def drawGrid(width, rows):
 def fillGrid(matrice, grid):
     for widget in gridFrame.winfo_children():
         widget.delete("square")
-    sizeBtwn = 600 // len(matrice)
+    sizeBtwn = canvasWidth / len(matrice)
     for i in range(len(matrice)):
         for j in range(len(matrice)):
             if matrice[i][j] == 1:
@@ -47,7 +47,7 @@ def initialise():
     global matrice
     matrice = initMatrice(taille.get(), pcVie.get())
     global myGrid
-    myGrid = drawGrid(600, taille.get())
+    myGrid = drawGrid(taille.get())
     fillGrid(matrice, myGrid)
     button0['state'] = NORMAL
     button2['state'] = NORMAL
@@ -105,7 +105,8 @@ def easterEgg(event):
     for widget in gridFrame.winfo_children():
         widget.destroy()
     global myGrid
-    myGrid = drawGrid(600, 100)
+    scale1.set(100)
+    myGrid = drawGrid(taille.get())
     fillGrid(matrice, myGrid)
     button0['state'] = NORMAL
     button2['state'] = NORMAL
@@ -142,6 +143,8 @@ def stop():
 running = TRUE
 windowWidth = 800
 windowHeight = 600
+canvasWidth = 600
+canvasHeigth = 600
 window = Tk()
 window.title('SR01 Jeu de la vie')
 window.geometry(f"{windowWidth}x{windowHeight}")
