@@ -53,6 +53,20 @@ def initialise():
     button2['state'] = NORMAL
 
 
+def nombreVoisins(matrice, i, j, rows):
+    """Returns the number of alive niehgbours of the cell (i,j)."""
+    res = 0
+    for k in range(-1, 2):
+        for l in range(-1, 2):
+            if matrice[(i+k) % rows][(j+l) % rows]:
+                res += 1
+    if matrice[i][j]:
+        res -= 1  # in case the center is counted
+
+    return res
+
+
+"""
 def nombreVoisins(matrice, x, y, rows):
     result = matrice[(x - 1) % rows][(y - 1) % rows] + matrice[(x - 1) % rows][(y) % rows] + \
         matrice[(x - 1) % rows][(y + 1) % rows] + matrice[(x) % rows][(y + 1) % rows] + \
@@ -60,6 +74,7 @@ def nombreVoisins(matrice, x, y, rows):
         matrice[(x + 1) % rows][(y - 1) % rows] + \
         matrice[(x) % rows][(y - 1) % rows]
     return result
+"""
 
 
 def newGeneration(matrice):
@@ -87,12 +102,16 @@ def start():
     run()
 
 
+def onerun():
+    global matrice
+    newMatrice = newGeneration(matrice)
+    fillGrid(newMatrice, myGrid)
+    matrice = newMatrice
+
+
 def run():
     if running:
-        global matrice
-        newMatrice = newGeneration(matrice)
-        fillGrid(newMatrice, myGrid)
-        matrice = newMatrice
+        onerun()
         speed = int((1/vitesse.get())*1000)
         window.after(speed, run)
 
