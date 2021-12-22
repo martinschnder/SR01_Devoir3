@@ -23,10 +23,12 @@ def fillGrid(matrice, grid):
     for i in range(len(matrice)):
         for j in range(len(matrice)):
             if matrice[i][j] == 1:
-                grid.create_rectangle(i * sizeBtwn, j * sizeBtwn, (i + 1) * sizeBtwn, (j + 1) * sizeBtwn, fill = 'red', tag = 'square')
-                
+                grid.create_rectangle(i * sizeBtwn, j * sizeBtwn, (i + 1)
+                                      * sizeBtwn, (j + 1) * sizeBtwn, fill='red', tag='square')
 
-def initMatrice(rows, lifeProportion):
+
+def initMatrice(rows, pcVie):
+    lifeProportion = pcVie/100
     values = [0, 1]
     weights = [1 - lifeProportion, lifeProportion]
     matrice = [[0 for _ in range(rows)] for _ in range(rows)]
@@ -41,11 +43,18 @@ def refreshGrid(grid, newMatrice, rows, surface):
     fillGrid(newMatrice, grid)
 
 
+def initialise():
+    matrice = initMatrice(taille.get(), pcVie.get())
+    myGrid = drawGrid(600, taille.get(), gridFrame)
+    fillGrid(matrice, myGrid)
+
+
 def nombreVoisins(matrice, x, y, rows):
     result = matrice[(x - 1 + rows) % rows][(y - 1 + rows) % rows] + matrice[(x - 1 + rows) % rows][(y + rows) % rows] + \
         matrice[(x - 1 + rows) % rows][(y + 1 + rows) % rows] + matrice[(x + rows) % rows][(y + 1 + rows) % rows] + \
-            matrice[(x + 1 + rows) % rows][(y + 1 + rows) % rows] + matrice[(x + 1 + rows) % rows][(y + rows) % rows] +\
-                matrice[(x + 1 + rows) % rows][(y - 1 + rows) % rows] + matrice[(x + rows) % rows][(y - 1 + rows) % rows]
+        matrice[(x + 1 + rows) % rows][(y + 1 + rows) % rows] + matrice[(x + 1 + rows) % rows][(y + rows) % rows] +\
+        matrice[(x + 1 + rows) % rows][(y - 1 + rows) % rows] + \
+        matrice[(x + rows) % rows][(y - 1 + rows) % rows]
     return result
 
 
@@ -68,15 +77,8 @@ def newGeneration(matrice, rows):
     return newMatrice
 
 
-def initialise():
-    matrice = initMatrice(scale1.get(), scale2.get())
-    myGrid = drawGrid(600, rows, surface)
-    fillGrid(matrice, myGrid)
-
-
 windowWidth = 800
 windowHeight = 600
-rows = 20
 window = Tk()
 window.title('SR01 Jeu de la vie')
 window.geometry(f"{windowWidth}x{windowHeight}")
@@ -100,8 +102,10 @@ text1 = Label(textFrame, text='Taille de la grille', fg='#22427C')
 text1.pack()
 text1.grid(row=0)
 
+taille = IntVar()
+
 scale1 = Scale(textFrame, orient=HORIZONTAL,
-                fg='#22427C', from_=10, to=100)
+               fg='#22427C', from_=10, to=100, variable=taille)
 scale1.pack()
 scale1.grid(row=1)
 
@@ -109,8 +113,10 @@ text2 = Label(textFrame, text='% de Vie', fg='#22427C')
 text2.pack()
 text2.grid(row=2)
 
+pcVie = IntVar()
+
 scale2 = Scale(textFrame, orient=HORIZONTAL,
-                fg='#22427C', from_=0, to=100)
+               fg='#22427C', from_=0, to=100, variable=pcVie)
 scale2.pack()
 scale2.grid(row=3)
 
@@ -121,12 +127,12 @@ text3.grid(row=4)
 vitesse = IntVar()
 
 scale3 = Scale(textFrame, orient=HORIZONTAL,
-                fg='#22427C', from_=2, to=20, variable=vitesse)
+               fg='#22427C', from_=2, to=20, variable=vitesse)
 scale3.pack()
 scale3.grid(row=5)
 
 button4 = Button(textFrame, text='Quitter', bg='#C0C0C0',
-                    fg='#22427C', command=window.quit)
+                 fg='#22427C', command=window.quit)
 button4.pack(fill=X)
 button4.grid(row=6, sticky='nesw')
 
@@ -139,7 +145,7 @@ button2.pack(fill=X)
 button2.grid(row=1)
 
 button3 = Button(buttonFrame, text='Initialiser',
-                    bg='#C0C0C0', fg='#22427C', command=initialise)
+                 bg='#C0C0C0', fg='#22427C', command=initialise)
 button3.pack(fill=X)
 button3.grid(row=2)
 
