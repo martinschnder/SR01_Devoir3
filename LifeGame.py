@@ -1,6 +1,5 @@
 from tkinter import *
 from random import choices
-import time
 
 
 def drawGrid(width, rows, surface):
@@ -45,6 +44,8 @@ def refreshGrid(grid, newMatrice, rows, surface):
 
 def initialise():
     matrice = initMatrice(taille.get(), pcVie.get())
+    for widget in gridFrame.winfo_children():
+        widget.destroy()
     myGrid = drawGrid(600, taille.get(), gridFrame)
     fillGrid(matrice, myGrid)
 
