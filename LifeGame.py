@@ -54,20 +54,11 @@ def initialise():
 
 
 def nombreVoisins(matrice, x, y, rows):
-<<<<<<< HEAD
-    result = \
-        matrice[(x - 1 + rows) % rows][(y - 1 + rows) % rows] + matrice[(x - 1 + rows) % rows][(y + rows) % rows] + \
-        matrice[(x - 1 + rows) % rows][(y + 1 + rows) % rows] + matrice[(x + rows) % rows][(y + 1 + rows) % rows] + \
-        matrice[(x + 1 + rows) % rows][(y + 1 + rows) % rows] + matrice[(x + 1 + rows) % rows][(y + rows) % rows] +\
-        matrice[(x + 1 + rows) % rows][(y - 1 + rows) % rows] + \
-        matrice[(x + rows) % rows][(y - 1 + rows) % rows]
-=======
     result = matrice[(x - 1) % rows][(y - 1) % rows] + matrice[(x - 1) % rows][(y) % rows] + \
         matrice[(x - 1) % rows][(y + 1) % rows] + matrice[(x) % rows][(y + 1) % rows] + \
         matrice[(x + 1) % rows][(y + 1) % rows] + matrice[(x + 1) % rows][(y) % rows] +\
         matrice[(x + 1) % rows][(y - 1) % rows] + \
         matrice[(x) % rows][(y - 1) % rows]
->>>>>>> 91c7bbd1921844a1e52d39fb8014c46bbbcb81c8
     return result
 
 
@@ -89,7 +80,8 @@ def newGeneration(matrice):
                     newMatrice[i][j] = 0
     return newMatrice
 
-def easterEgg():
+def easterEgg(event):
+    global matrice
     matrice = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0],
@@ -109,8 +101,11 @@ def easterEgg():
 
     for widget in gridFrame.winfo_children():
         widget.destroy()
-    myGrid = drawGrid(600, 100, gridFrame)
+    global myGrid
+    myGrid = drawGrid(600, 100)
     fillGrid(matrice, myGrid)
+    button1['state'] = NORMAL
+    button2['state'] = NORMAL
     
 
 
