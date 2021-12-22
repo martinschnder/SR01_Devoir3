@@ -2,6 +2,7 @@ from tkinter import *
 from random import choices
 import time
 
+
 def drawGrid(width, rows, surface):
     sizeBtwn = width // rows
     x, y = 0, 0
@@ -16,12 +17,15 @@ def drawGrid(width, rows, surface):
     grid.pack()
     return grid
 
-def fillGrid(matrice, grid) :
+
+def fillGrid(matrice, grid):
     sizeBtwn = 600 // len(matrice[0])
     for i in range(len(matrice)):
         for j in range(len(matrice)):
             if matrice[i][j] == 1:
-                grid.create_rectangle(i * sizeBtwn, j * sizeBtwn, (i + 1) * sizeBtwn, (j + 1) * sizeBtwn, fill = 'red', tag = 'square')
+                grid.create_rectangle(i * sizeBtwn, j * sizeBtwn, (i + 1)
+                                      * sizeBtwn, (j + 1) * sizeBtwn, fill='red', tag='square')
+
 
 def initMatrice(rows, lifeProportion):
     values = [0, 1]
@@ -32,9 +36,17 @@ def initMatrice(rows, lifeProportion):
             matrice[i][j] = choices(values, weights)[0]
     return matrice
 
+
 def refreshGrid(grid, newMatrice, rows, surface):
     grid.delete('square')
     fillGrid(newMatrice, grid)
+
+
+def initialise(width, rows, surface, pcVie):
+    matrice = initMatrice(rows, pcVie)
+    myGrid = drawGrid(width, rows, surface)
+    fillGrid(matrice, myGrid)
+
 
 def main():
     windowWidth = 800
@@ -44,49 +56,70 @@ def main():
     window.title('SR01 Jeu de la vie')
     window.geometry(f"{windowWidth}x{windowHeight}")
 
-    framebutton = Frame(window, width=200, height=600, bg='#DCDCDC')
-    framebutton.pack_propagate(False)
-    framebutton.pack(side = RIGHT)
-
-    button1 = Button(framebutton, text='Lancer', bg='#C0C0C0', fg='#22427C')
-    button1.pack(side = TOP, fill = X)
-
-    button2 = Button(framebutton, text='Arreter', bg='#C0C0C0', fg='#22427C')
-    button2.pack(side = TOP, fill = X)
-
-    button3 = Button(framebutton, text='Initialiser', bg='#C0C0C0', fg='#22427C')
-    button3.pack(side = TOP, fill = X)
-
-    button4 = Button(framebutton, text='Quitter', bg='#C0C0C0', fg='#22427C')
-    button4.pack(side = BOTTOM, fill = X)
-
-    scale3 = Scale(framebutton, orient=HORIZONTAL, fg='#22427C', from_=2, to=20)
-    scale3.pack(side = BOTTOM)
-
-    text3 = Label(framebutton, text='Vitesse', fg='#22427C')
-    text3.pack(side = BOTTOM)
-
-    scale2 = Scale(framebutton, orient=HORIZONTAL, fg='#22427C', from_=0, to=100)
-    scale2.pack(side = BOTTOM)
-
-    text2 = Label(framebutton, text='% de Vie', fg='#22427C')
-    text2.pack(side = BOTTOM)
-
-    scale1 = Scale(framebutton, orient=HORIZONTAL, fg='#22427C', from_=10, to=100)
-    scale1.pack(side = BOTTOM)
-
-    text1 = Label(framebutton, text='Taille de la grille', fg='#22427C')
-    text1.pack(side = BOTTOM)
-    
     gridFrame = Frame(window)
-    gridFrame.pack(side = LEFT)
+    gridFrame.pack(side=LEFT)
 
-    matrice = initMatrice(20, 0.3)
-    mygrid = drawGrid(600, rows, gridFrame)
-    fillGrid(matrice, mygrid)
-    newMatrice = initMatrice(20, 0.7)
-    refreshGrid(mygrid, newMatrice, 20, gridFrame)
+    rightFrame = Frame(window, width=200, height=600, bg='#DCDCDC')
+    rightFrame.pack_propagate(False)
+    rightFrame.pack(side=RIGHT)
+
+    buttonFrame = Frame(rightFrame, width=200, bg='#DCDCDC')
+    buttonFrame.pack_propagate(False)
+    buttonFrame.pack(side=TOP)
+
+    textFrame = Frame(rightFrame, width=200, bg='#DCDCDC')
+    textFrame.pack_propagate(False)
+    textFrame.pack(side=BOTTOM)
+
+    text1 = Label(textFrame, text='Taille de la grille', fg='#22427C')
+    text1.pack()
+    text1.grid(row=0)
+
+    scale1 = Scale(textFrame, orient=HORIZONTAL,
+                   fg='#22427C', from_=10, to=100)
+    scale1.pack()
+    scale1.grid(row=1)
+
+    text2 = Label(textFrame, text='% de Vie', fg='#22427C')
+    text2.pack()
+    text2.grid(row=2)
+
+    scale2 = Scale(textFrame, orient=HORIZONTAL,
+                   fg='#22427C', from_=0, to=100)
+    scale2.pack()
+    scale2.grid(row=3)
+
+    text3 = Label(textFrame, text='Vitesse', fg='#22427C')
+    text3.pack()
+    text3.grid(row=4)
+
+    vitesse = IntVar()
+
+    scale3 = Scale(textFrame, orient=HORIZONTAL,
+                   fg='#22427C', from_=2, to=20, variable=vitesse)
+    scale3.pack()
+    scale3.grid(row=5)
+
+    button4 = Button(textFrame, text='Quitter', bg='#C0C0C0',
+                     fg='#22427C', command=window.quit)
+    button4.pack(fill=X)
+    button4.grid(row=6, sticky='nesw')
+
+    button1 = Button(buttonFrame, text='Lancer', bg='#C0C0C0', fg='#22427C')
+    button1.pack(fill=X)
+    button1.grid(row=0)
+
+    button2 = Button(buttonFrame, text='Arreter', bg='#C0C0C0', fg='#22427C')
+    button2.pack(fill=X)
+    button2.grid(row=1)
+
+    button3 = Button(buttonFrame, text='Initialiser',
+                     bg='#C0C0C0', fg='#22427C', command=initialise(600, 20, gridFrame, 0.2))
+    button3.pack(fill=X)
+    button3.grid(row=2)
+
     window.mainloop()
+
 
 if __name__ == '__main__':
     main()
