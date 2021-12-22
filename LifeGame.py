@@ -49,7 +49,7 @@ def initialise():
     global myGrid
     myGrid = drawGrid(600, taille.get())
     fillGrid(matrice, myGrid)
-    button1['state'] = NORMAL
+    button0['state'] = NORMAL
     button2['state'] = NORMAL
 
 
@@ -63,16 +63,14 @@ def nombreVoisins(matrice, x, y, rows):
 
 
 def newGeneration(matrice):
-    newMatrice = matrice
+    newMatrice = [[0 for _ in range(len(matrice))] for _ in range(len(matrice))]
     for i in range(len(matrice)):
         for j in range(len(matrice)):
             if (matrice[i][j] == 1):
-                if (nombreVoisins(matrice, i, j, len(matrice)) >= 4):
-                    newMatrice[i][j] = 0
-                elif (nombreVoisins(matrice, i, j, len(matrice)) <= 1):
-                    newMatrice[i][j] = 0
-                else:
+                if (nombreVoisins(matrice, i, j, len(matrice)) == 2 or nombreVoisins(matrice, i, j, len(matrice)) == 3):
                     newMatrice[i][j] = 1
+                else:
+                    newMatrice[i][j] = 0
             else:
                 if (nombreVoisins(matrice, i, j, len(matrice)) == 3):
                     newMatrice[i][j] = 1
@@ -82,29 +80,34 @@ def newGeneration(matrice):
 
 
 def easterEgg(event):
+    global running
+    running = FALSE
     global matrice
     matrice = [
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0],
-        [0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0],
+        [0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
 
-    for i in range(8):
-        matrice[i] = matrice[i] + [0] * 83
+    for i in range(11):
+        matrice[i] = matrice[i] + [0] * 62
 
-    for i in range(92):
-        matrice.insert(0, 100*[0])
+    for i in range(89):
+        matrice.append(100 * [0])
 
     for widget in gridFrame.winfo_children():
         widget.destroy()
     global myGrid
     myGrid = drawGrid(600, 100)
     fillGrid(matrice, myGrid)
-    button1['state'] = NORMAL
+    button0['state'] = NORMAL
     button2['state'] = NORMAL
 
 
@@ -150,11 +153,11 @@ buttonFrame = Frame(window, width=200, height=600, bg='#DCDCDC')
 buttonFrame.pack_propagate(False)
 buttonFrame.pack(side=RIGHT)
 
-button1 = Button(buttonFrame, text='Lancer', bg='#C0C0C0',
+button0 = Button(buttonFrame, text='Lancer', bg='#C0C0C0',
                  fg='#22427C', command=start, state=DISABLED)
-button1.pack(fill=X, side=TOP)
+button0.pack(fill=X, side=TOP)
 
-button1.bind('<Button-3>', onerun)
+button0.bind('<Button-3>', onerun)
 
 button2 = Button(buttonFrame, text='Arreter',
                  bg='#C0C0C0', fg='#22427C', command=stop, state=DISABLED)
