@@ -16,12 +16,14 @@ def drawGrid(width, rows, surface):
     grid.pack()
     return grid
 
+
 def fillGrid(matrice, grid) :
     sizeBtwn = 600 // len(matrice[0])
     for i in range(len(matrice)):
         for j in range(len(matrice)):
             if matrice[i][j] == 1:
                 grid.create_rectangle(i * sizeBtwn, j * sizeBtwn, (i + 1) * sizeBtwn, (j + 1) * sizeBtwn, fill = 'red', tag = 'square')
+                
 
 def initMatrice(rows, lifeProportion):
     values = [0, 1]
@@ -32,9 +34,38 @@ def initMatrice(rows, lifeProportion):
             matrice[i][j] = choices(values, weights)[0]
     return matrice
 
+
 def refreshGrid(grid, newMatrice, rows, surface):
     grid.delete('square')
     fillGrid(newMatrice, grid)
+
+
+def nombreVoisins(matrice, x, y, rows):
+    result = matrice[(x - 1 + rows) % rows][(y - 1 + rows) % rows] + matrice[(x - 1 + rows) % rows][(y + rows) % rows] + \
+        matrice[(x - 1 + rows) % rows][(y + 1 + rows) % rows] + matrice[(x + rows) % rows][(y + 1 + rows) % rows] + \
+            matrice[(x + 1 + rows) % rows][(y + 1 + rows) % rows] + matrice[(x + 1 + rows) % rows][(y + rows) % rows] +\
+                matrice[(x + 1 + rows) % rows][(y - 1 + rows) % rows] + matrice[(x + rows) % rows][(y - 1 + rows) % rows]
+    return result
+
+
+def newGeneration(matrice, rows):
+    newMatrice = matrice
+    for i in range(rows):
+        for j in range(rows):
+            if (matrice[i][j] == 1):
+                if (nombreVoisins(matrice, i, j, rows) >= 4):
+                    newMatrice[i][j] = 0
+                elif (nombreVoisins(matrice, i, j) <= 1):
+                    newMatrice[i][j] = 0
+                else:
+                    newMatrice[i][j] = 1
+            else:
+                if (nombreVoisins(matrice, i, j) == 3):
+                    newMatrice[i][j] = 1
+                else:
+                    newMatrice[i][j] = 0
+    return newMatrice
+
 
 def main():
     windowWidth = 800
