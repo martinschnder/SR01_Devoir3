@@ -95,6 +95,36 @@ def newGeneration(matrice):
                     newMatrice[i][j] = 0
     return newMatrice
 
+def easterEgg(event):
+    global matrice
+    matrice = [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0],
+    [0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+
+    for i in range(8):
+        matrice[i] = matrice [i] + [0] * 83
+
+    for i in range(92):
+        matrice.insert(0, 100*[0])
+
+
+    for widget in gridFrame.winfo_children():
+        widget.destroy()
+    global myGrid
+    myGrid = drawGrid(600, 100)
+    fillGrid(matrice, myGrid)
+    button1['state'] = NORMAL
+    button2['state'] = NORMAL
+    
+
+
+
 
 def start():
     global running
@@ -146,6 +176,8 @@ button2.pack(fill=X, side=TOP)
 button3 = Button(buttonFrame, text='Initialiser',
                  bg='#C0C0C0', fg='#22427C', command=initialise)
 button3.pack(fill=X, side=TOP)
+
+button3.bind('<Button-3>', easterEgg)
 
 button4 = Button(buttonFrame, text='Quitter', bg='#C0C0C0',
                  fg='#22427C', command=window.quit)
