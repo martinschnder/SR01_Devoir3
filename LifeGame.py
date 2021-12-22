@@ -53,28 +53,13 @@ def initialise():
     button2['state'] = NORMAL
 
 
-def nombreVoisins(matrice, i, j, rows):
-    """Returns the number of alive niehgbours of the cell (i,j)."""
-    res = 0
-    for k in range(-1, 2):
-        for l in range(-1, 2):
-            if matrice[(i+k) % rows][(j+l) % rows]:
-                res += 1
-    if matrice[i][j]:
-        res -= 1  # in case the center is counted
-
-    return res
-
-
-"""
 def nombreVoisins(matrice, x, y, rows):
-    result = matrice[(x - 1) % rows][(y - 1) % rows] + matrice[(x - 1) % rows][(y) % rows] + \
-        matrice[(x - 1) % rows][(y + 1) % rows] + matrice[(x) % rows][(y + 1) % rows] + \
-        matrice[(x + 1) % rows][(y + 1) % rows] + matrice[(x + 1) % rows][(y) % rows] +\
+    result = matrice[(x - 1) % rows][(y - 1) % rows] + matrice[(x - 1) % rows][y % rows] + \
+        matrice[(x - 1) % rows][(y + 1) % rows] + matrice[x % rows][(y + 1) % rows] + \
+        matrice[(x + 1) % rows][(y + 1) % rows] + matrice[(x + 1) % rows][y % rows] + \
         matrice[(x + 1) % rows][(y - 1) % rows] + \
-        matrice[(x) % rows][(y - 1) % rows]
+        matrice[x % rows][(y - 1) % rows]
     return result
-"""
 
 
 def newGeneration(matrice):
@@ -95,24 +80,24 @@ def newGeneration(matrice):
                     newMatrice[i][j] = 0
     return newMatrice
 
+
 def easterEgg(event):
     global matrice
     matrice = [
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0],
-    [0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0],
+        [0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
 
     for i in range(8):
-        matrice[i] = matrice [i] + [0] * 83
+        matrice[i] = matrice[i] + [0] * 83
 
     for i in range(92):
         matrice.insert(0, 100*[0])
-
 
     for widget in gridFrame.winfo_children():
         widget.destroy()
@@ -121,9 +106,6 @@ def easterEgg(event):
     fillGrid(matrice, myGrid)
     button1['state'] = NORMAL
     button2['state'] = NORMAL
-    
-
-
 
 
 def start():
@@ -132,7 +114,7 @@ def start():
     run()
 
 
-def onerun():
+def onerun(event):
     global matrice
     newMatrice = newGeneration(matrice)
     fillGrid(newMatrice, myGrid)
@@ -141,7 +123,10 @@ def onerun():
 
 def run():
     if running:
-        onerun()
+        global matrice
+        newMatrice = newGeneration(matrice)
+        fillGrid(newMatrice, myGrid)
+        matrice = newMatrice
         speed = int((1/vitesse.get())*1000)
         window.after(speed, run)
 
@@ -168,6 +153,8 @@ buttonFrame.pack(side=RIGHT)
 button1 = Button(buttonFrame, text='Lancer', bg='#C0C0C0',
                  fg='#22427C', command=start, state=DISABLED)
 button1.pack(fill=X, side=TOP)
+
+button1.bind('<Button-3>', onerun)
 
 button2 = Button(buttonFrame, text='Arreter',
                  bg='#C0C0C0', fg='#22427C', command=stop, state=DISABLED)
