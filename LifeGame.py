@@ -51,7 +51,8 @@ def initialise():
 
 
 def nombreVoisins(matrice, x, y, rows):
-    result = matrice[(x - 1 + rows) % rows][(y - 1 + rows) % rows] + matrice[(x - 1 + rows) % rows][(y + rows) % rows] + \
+    result = \
+        matrice[(x - 1 + rows) % rows][(y - 1 + rows) % rows] + matrice[(x - 1 + rows) % rows][(y + rows) % rows] + \
         matrice[(x - 1 + rows) % rows][(y + 1 + rows) % rows] + matrice[(x + rows) % rows][(y + 1 + rows) % rows] + \
         matrice[(x + 1 + rows) % rows][(y + 1 + rows) % rows] + matrice[(x + 1 + rows) % rows][(y + rows) % rows] +\
         matrice[(x + 1 + rows) % rows][(y - 1 + rows) % rows] + \
@@ -77,6 +78,32 @@ def newGeneration(matrice, rows):
                     newMatrice[i][j] = 0
     return newMatrice
 
+def easterEgg():
+    matrice = [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0],
+    [0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+
+    for i in range(8):
+        matrice[i] = matrice [i] + [0] * 83
+
+    for i in range(92):
+        matrice.insert(0, 100*[0])
+
+
+    for widget in gridFrame.winfo_children():
+        widget.destroy()
+    myGrid = drawGrid(600, 100, gridFrame)
+    fillGrid(matrice, myGrid)
+    
+
+
+
 
 windowWidth = 800
 windowHeight = 600
@@ -100,6 +127,8 @@ button2.pack(fill=X, side=TOP)
 button3 = Button(buttonFrame, text='Initialiser',
                  bg='#C0C0C0', fg='#22427C', command=initialise)
 button3.pack(fill=X, side=TOP)
+
+button3.bind('<Button-3>', easterEgg)
 
 button4 = Button(buttonFrame, text='Quitter', bg='#C0C0C0',
                  fg='#22427C', command=window.quit)
