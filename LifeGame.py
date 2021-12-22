@@ -49,6 +49,34 @@ def initialise():
     fillGrid(matrice, myGrid)
 
 
+def nombreVoisins(matrice, x, y, rows):
+    result = matrice[(x - 1 + rows) % rows][(y - 1 + rows) % rows] + matrice[(x - 1 + rows) % rows][(y + rows) % rows] + \
+        matrice[(x - 1 + rows) % rows][(y + 1 + rows) % rows] + matrice[(x + rows) % rows][(y + 1 + rows) % rows] + \
+        matrice[(x + 1 + rows) % rows][(y + 1 + rows) % rows] + matrice[(x + 1 + rows) % rows][(y + rows) % rows] +\
+        matrice[(x + 1 + rows) % rows][(y - 1 + rows) % rows] + \
+        matrice[(x + rows) % rows][(y - 1 + rows) % rows]
+    return result
+
+
+def newGeneration(matrice, rows):
+    newMatrice = matrice
+    for i in range(rows):
+        for j in range(rows):
+            if (matrice[i][j] == 1):
+                if (nombreVoisins(matrice, i, j, rows) >= 4):
+                    newMatrice[i][j] = 0
+                elif (nombreVoisins(matrice, i, j) <= 1):
+                    newMatrice[i][j] = 0
+                else:
+                    newMatrice[i][j] = 1
+            else:
+                if (nombreVoisins(matrice, i, j) == 3):
+                    newMatrice[i][j] = 1
+                else:
+                    newMatrice[i][j] = 0
+    return newMatrice
+
+
 windowWidth = 800
 windowHeight = 600
 window = Tk()
