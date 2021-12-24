@@ -80,7 +80,7 @@ def newGeneration(matrice):
     return newMatrice
 
 
-def easterEgg1(event):
+def easterEgg1():
     global running
     running = FALSE
     global matrice
@@ -122,7 +122,7 @@ def easterEgg1(event):
     button2['state'] = NORMAL
 
 
-def easterEgg2(event):
+def easterEgg2():
     global running
     running = FALSE
     global matrice
@@ -209,9 +209,6 @@ button3 = Button(buttonFrame, text='Initialiser',
                  bg='#C0C0C0', fg='#22427C', command=initialise)
 button3.pack(fill=X, side=TOP)
 
-button3.bind('<Button-3>', easterEgg1)
-button3.bind('<Double-Button-1>', easterEgg2)
-
 button4 = Button(buttonFrame, text='Quitter', bg='#C0C0C0',
                  fg='#22427C', command=window.quit)
 button4.pack(fill=X, side=BOTTOM)
@@ -243,5 +240,18 @@ scale1.pack(side=BOTTOM)
 text1 = Label(buttonFrame, text='Taille de la grille', fg='#22427C')
 text1.pack(side=BOTTOM)
 
+menu = Menu(window, tearoff=0)
+menu.add_command(label="Canon à planneurs", command=easterEgg1)
+menu.add_command(label="Galaxie de kok", command=easterEgg2)
+
+
+def do_popup(event):
+    try:
+        menu.tk_popup(event.x_root, event.y_root)
+    finally:
+        menu.grab_release()
+
+
+button3.bind("<Button-3>", do_popup)
 
 window.mainloop()
