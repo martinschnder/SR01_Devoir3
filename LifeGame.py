@@ -115,6 +115,7 @@ def easterEgg1():
 
     for widget in gridFrame.winfo_children():
         widget.destroy()
+    scale1.set(100)
     global myGrid
     myGrid = drawGrid(600, 100)
     fillGrid(matrice, myGrid)
@@ -146,6 +147,7 @@ def easterEgg2():
 
     for widget in gridFrame.winfo_children():
         widget.destroy()
+    scale1.set(15)
     global myGrid
     myGrid = drawGrid(600, 15)
     fillGrid(matrice, myGrid)
