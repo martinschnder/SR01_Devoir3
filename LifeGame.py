@@ -80,7 +80,7 @@ def newGeneration(matrice):
     return newMatrice
 
 
-def easterEgg1():
+def canonplanneur():
     global running
     running = FALSE
     global matrice
@@ -123,7 +123,7 @@ def easterEgg1():
     button2['state'] = NORMAL
 
 
-def easterEgg2():
+def galaxiekok():
     global running
     running = FALSE
     global matrice
@@ -150,6 +150,68 @@ def easterEgg2():
     scale1.set(15)
     global myGrid
     myGrid = drawGrid(600, 15)
+    fillGrid(matrice, myGrid)
+    button0['state'] = NORMAL
+    button2['state'] = NORMAL
+
+
+def pulsar():
+    global running
+    running = FALSE
+    global matrice
+    matrice = [
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0],
+        [0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0],
+        [0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0],
+        [0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0],
+        [0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0],
+        [0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0],
+        [0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    ]
+
+    for widget in gridFrame.winfo_children():
+        widget.destroy()
+    scale1.set(17)
+    global myGrid
+    myGrid = drawGrid(600, 17)
+    fillGrid(matrice, myGrid)
+    button0['state'] = NORMAL
+    button2['state'] = NORMAL
+
+
+def penta():
+    global running
+    running = FALSE
+    global matrice
+    matrice = [
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0]]
+
+    for i in range(9):
+        matrice.append(18 * [0])
+
+    for widget in gridFrame.winfo_children():
+        widget.destroy()
+    scale1.set(18)
+    global myGrid
+    myGrid = drawGrid(600, 18)
     fillGrid(matrice, myGrid)
     button0['state'] = NORMAL
     button2['state'] = NORMAL
@@ -203,8 +265,8 @@ button0.pack(fill=X, side=TOP)
 
 button0.bind('<Button-3>', onerun)
 
-button2 = Button(buttonFrame, text='Arreter',
-                 bg='#C0C0C0', fg='#22427C', command=stop, state=DISABLED)
+button2 = Button(buttonFrame, text='Arreter', bg='#C0C0C0',
+                 fg='#22427C', command=stop, state=DISABLED)
 button2.pack(fill=X, side=TOP)
 
 button3 = Button(buttonFrame, text='Initialiser',
@@ -217,8 +279,8 @@ button4.pack(fill=X, side=BOTTOM)
 
 vitesse = IntVar()
 
-scale3 = Scale(buttonFrame, orient=HORIZONTAL,
-               fg='#22427C', from_=2, to=20, variable=vitesse)
+scale3 = Scale(buttonFrame, orient=HORIZONTAL, fg='#22427C',
+               from_=2, to=20, variable=vitesse)
 scale3.pack(side=BOTTOM)
 
 text3 = Label(buttonFrame, text='Vitesse', fg='#22427C')
@@ -226,8 +288,8 @@ text3.pack(side=BOTTOM)
 
 pcVie = IntVar()
 
-scale2 = Scale(buttonFrame, orient=HORIZONTAL,
-               fg='#22427C', from_=10, to=90, variable=pcVie)
+scale2 = Scale(buttonFrame, orient=HORIZONTAL, fg='#22427C',
+               from_=10, to=90, variable=pcVie)
 scale2.pack(side=BOTTOM)
 
 text2 = Label(buttonFrame, text='% de Vie', fg='#22427C')
@@ -235,16 +297,18 @@ text2.pack(side=BOTTOM)
 
 taille = IntVar()
 
-scale1 = Scale(buttonFrame, orient=HORIZONTAL,
-               fg='#22427C', from_=10, to=100, variable=taille)
+scale1 = Scale(buttonFrame, orient=HORIZONTAL, fg='#22427C',
+               from_=10, to=100, variable=taille)
 scale1.pack(side=BOTTOM)
 
 text1 = Label(buttonFrame, text='Taille de la grille', fg='#22427C')
 text1.pack(side=BOTTOM)
 
 menu = Menu(window, tearoff=0)
-menu.add_command(label="Canon à planneurs", command=easterEgg1)
-menu.add_command(label="Galaxie de kok", command=easterEgg2)
+menu.add_command(label="Canon à planneurs", command=canonplanneur)
+menu.add_command(label="Galaxie de kok", command=galaxiekok)
+menu.add_command(label="Pulsar", command=pulsar)
+menu.add_command(label="Pentadécathlon", command=penta)
 
 
 def do_popup(event):
