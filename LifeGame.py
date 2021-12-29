@@ -43,14 +43,14 @@ def initMatrice(taille, pcVie):
 
 def initialise():
     global running
-    running = FALSE
+    running = FALSE # le jeu est stoppé
     global matrice
-    matrice = initMatrice(taille.get(), pcVie.get())
+    matrice = initMatrice(taille.get(), pcVie.get()) # création de la matrice en récupérant les éléments des scale
     global myGrid
-    myGrid = drawGrid(600, taille.get())
-    fillGrid(matrice, myGrid)
-    button0['state'] = NORMAL
-    button2['state'] = NORMAL
+    myGrid = drawGrid(600, taille.get()) # dessin de la grille
+    fillGrid(matrice, myGrid) # remplissage de la grille avec la matrice
+    button0['state'] = NORMAL # activation du bouton Lancer
+    button2['state'] = NORMAL # activation du bouton Arreter 
 
 
 def nombreVoisins(matrice, x, y, rows):
@@ -82,8 +82,8 @@ def newGeneration(matrice):
 
 def canonplanneur():
     global running
-    running = FALSE
-    global matrice
+    running = FALSE # le jeu est stoppé
+    global matrice # initialisation de la matrice avec le dessin souhaité
     matrice = [
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -113,20 +113,21 @@ def canonplanneur():
     for i in range(89):
         matrice.append(100 * [0])
 
-    for widget in gridFrame.winfo_children():
+    for widget in gridFrame.winfo_children(): # on détruit les éléments qui peuvent être dans le gridFrame
         widget.destroy()
     scale1.set(100)
     global myGrid
-    myGrid = drawGrid(600, 100)
-    fillGrid(matrice, myGrid)
-    button0['state'] = NORMAL
+    myGrid = drawGrid(600, 100) # dessin de la grille
+    fillGrid(matrice, myGrid) # remplissage de la grille avec notre matrice
+    # activation des boutons
+    button0['state'] = NORMAL 
     button2['state'] = NORMAL
 
 
 def galaxiekok():
     global running
-    running = FALSE
-    global matrice
+    running = FALSE # le jeu est stoppé
+    global matrice # initialisation de la matrice avec le dessin souhaité
     matrice = [
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -145,20 +146,21 @@ def galaxiekok():
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     ]
 
-    for widget in gridFrame.winfo_children():
+    for widget in gridFrame.winfo_children(): # on détruit les éléments qui peuvent être dans le gridFrame
         widget.destroy()
     scale1.set(15)
     global myGrid
-    myGrid = drawGrid(600, 15)
-    fillGrid(matrice, myGrid)
+    myGrid = drawGrid(600, 15) # dessin de la grille
+    fillGrid(matrice, myGrid) # remplissage de la grille avec notre matrice
+    # activation des boutons
     button0['state'] = NORMAL
     button2['state'] = NORMAL
 
 
 def pulsar():
     global running
-    running = FALSE
-    global matrice
+    running = FALSE # le jeu est stoppé
+    global matrice # initialisation de la matrice avec le dessin souhaité
     matrice = [
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -179,20 +181,21 @@ def pulsar():
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     ]
 
-    for widget in gridFrame.winfo_children():
+    for widget in gridFrame.winfo_children(): # on détruit les éléments qui peuvent être dans le gridFrame
         widget.destroy()
     scale1.set(17)
     global myGrid
-    myGrid = drawGrid(600, 17)
-    fillGrid(matrice, myGrid)
+    myGrid = drawGrid(600, 17) # dessin de la grille
+    fillGrid(matrice, myGrid) # remplissage de la grille avec notre matrice
+    # activation des boutons
     button0['state'] = NORMAL
     button2['state'] = NORMAL
 
 
 def penta():
     global running
-    running = FALSE
-    global matrice
+    running = FALSE # le jeu est stoppé
+    global matrice # initialisation de la matrice avec le dessin souhaité
     matrice = [
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -207,55 +210,58 @@ def penta():
     for i in range(9):
         matrice.append(18 * [0])
 
-    for widget in gridFrame.winfo_children():
+    for widget in gridFrame.winfo_children(): # on détruit les éléments qui peuvent être dans le gridFrame
         widget.destroy()
     scale1.set(18)
     global myGrid
-    myGrid = drawGrid(600, 18)
-    fillGrid(matrice, myGrid)
+    myGrid = drawGrid(600, 18)  # dessin de la grille
+    fillGrid(matrice, myGrid)# remplissage de la grille avec notre matrice
+    # activation des boutons
     button0['state'] = NORMAL
     button2['state'] = NORMAL
 
 
-def start():
+def start(): # activation lors du clic gauche sur le bouton Lancer
     global running
-    running = TRUE
+    running = TRUE # le jeu est lancé
     run()
 
 
-def onerun(event):
+def onerun(event): # activation lors du clic droit sur le bouton Lancer
     global matrice
-    newMatrice = newGeneration(matrice)
-    fillGrid(newMatrice, myGrid)
+    newMatrice = newGeneration(matrice) # création de la matrice de la génération suivante
+    fillGrid(newMatrice, myGrid) # remplissage de la grille avec la matrice
     matrice = newMatrice
 
 
 def run():
-    if running:
+    if running: # vérifie que le jeu n'a pas été arrêté
         global matrice
-        newMatrice = newGeneration(matrice)
-        fillGrid(newMatrice, myGrid)
+        newMatrice = newGeneration(matrice) # création de la matrice de la génération suivante
+        fillGrid(newMatrice, myGrid) # remplissage de la grille avec la matrice
         matrice = newMatrice
+        # plus valeur vitesse du scale est grande plus le temps d'attente entre deux lancements de la fonction est faible
         speed = int((1/vitesse.get())*1000)
-        window.after(speed, run)
+        window.after(speed, run) # lancement de la fonction run après speed ms
 
 
-def stop():
+def stop(): # activation lors du clic gauche sur le bouton Arreter
     global running
-    running = FALSE
+    running = FALSE # empeche le lancement du rafraichissement de la fonction run
 
 
 running = TRUE
-windowWidth = 800
-windowHeight = 600
+windowWidth = 800 # largeur de la fenetre
+windowHeight = 600 # hauteur de la fenetre
 window = Tk()
-window.title('SR01 Jeu de la vie')
-window.geometry(f"{windowWidth}x{windowHeight}")
+window.title('SR01 Jeu de la vie') # titre de la fenetre
+window.geometry(f"{windowWidth}x{windowHeight}") # dimensions de la fenetre
+window.resizable(height = FALSE, width = FALSE) # empeche l'utilisateur de redimensionner sa fenetre
 
 gridFrame = Frame(window)
 gridFrame.pack(side=LEFT)
 
-buttonFrame = Frame(window, width=200, height=600, bg='#DCDCDC')
+buttonFrame = Frame(window, width=200, height=600)
 buttonFrame.pack_propagate(False)
 buttonFrame.pack(side=RIGHT)
 
