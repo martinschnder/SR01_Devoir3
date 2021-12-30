@@ -3,41 +3,41 @@ from random import choices
 
 
 def drawGrid(width, rows):
-    for widget in gridFrame.winfo_children():
+    for widget in gridFrame.winfo_children(): # on détruit les éléments du gridFrame s'il y en a 
         widget.destroy()
-    sizeBtwn = width // rows
-    x, y = 0, 0
+    sizeBtwn = width / rows # on définit la largeur entre chaque ligne de la grille
+    x, y = 0, 0 
 
-    grid = Canvas(gridFrame, width=width, height=width, background='white')
-    for l in range(rows):
+    grid = Canvas(gridFrame, width=width, height=width, background='white') # création d'un objet de type Canvas dans le gridFrame
+    for l in range(rows): #boucle dessinant des lignes à intervalles réguliers
         x += sizeBtwn
         y += sizeBtwn
-        grid.create_line(x, 0, x, width)
-        grid.create_line(0, y, width, y)
+        grid.create_line(x, 0, x, width) # lignes verticales 
+        grid.create_line(0, y, width, y) # lignes horizontale
 
     grid.pack()
     return grid
 
 
 def fillGrid(matrice, grid):
-    for widget in gridFrame.winfo_children():
+    for widget in gridFrame.winfo_children(): # on efface tous les carrés s'il y en a grâce à leur attribut tag
         widget.delete("square")
-    sizeBtwn = 600 // len(matrice)
+    sizeBtwn = 600 / len(matrice)
     for i in range(len(matrice)):
-        for j in range(len(matrice)):
-            if matrice[i][j] == 1:
+        for j in range(len(matrice)): # on parcours chaque case de la matrice
+            if matrice[i][j] == 1: # si une case contient un "1", on dessine un carré rouge aux coordonées de la case 
                 grid.create_rectangle(j * sizeBtwn, i * sizeBtwn, (j + 1)
                                       * sizeBtwn, (i + 1) * sizeBtwn, fill='red', tag='square')
 
 
 def initMatrice(taille, pcVie):
     lifeProportion = pcVie/100
-    values = [0, 1]
-    weights = [1 - lifeProportion, lifeProportion]
-    matrice = [[0 for _ in range(taille)] for _ in range(taille)]
+    values = [0, 1] # les deux valeurs possibles pour les cases de la matrice
+    weights = [1 - lifeProportion, lifeProportion] # les probabilité associées à chaque valeur possible
+    matrice = [[0 for _ in range(taille)] for _ in range(taille)] # on remplit la matrice de "0" pour l'initialiser
     for i in range(taille):
         for j in range(taille):
-            matrice[i][j] = choices(values, weights)[0]
+            matrice[i][j] = choices(values, weights)[0] # on tire une valeur au hasard dans le vecteur value selon les poids du vecteur weights
     return matrice
 
 
@@ -54,6 +54,8 @@ def initialise():
 
 
 def nombreVoisins(matrice, x, y, rows):
+    # le nombre de voisins corresponds à la somme des valeurs contenues dans toutes les cases voisines de la case en paramètre
+    # on prends le modulo taille de la matrice des coordonnées de chaque cases pour obtenir une matrice torique 
     result = matrice[(x - 1) % rows][(y - 1) % rows] + matrice[(x - 1) % rows][y % rows] + \
         matrice[(x - 1) % rows][(y + 1) % rows] + matrice[x % rows][(y + 1) % rows] + \
         matrice[(x + 1) % rows][(y + 1) % rows] + matrice[(x + 1) % rows][y % rows] + \
@@ -63,10 +65,10 @@ def nombreVoisins(matrice, x, y, rows):
 
 
 def newGeneration(matrice):
-    newMatrice = [[0 for _ in range(len(matrice))]
+    newMatrice = [[0 for _ in range(len(matrice))] # initialisation de la nouvelle matrice de la meme taille que la précédente avec des "0"
                   for _ in range(len(matrice))]
     for i in range(len(matrice)):
-        for j in range(len(matrice)):
+        for j in range(len(matrice)): # pour chaque case, on apllique les règles du jeu de la vie selon le nombre de voisins
             if (matrice[i][j] == 1):
                 if (nombreVoisins(matrice, i, j, len(matrice)) == 2 or nombreVoisins(matrice, i, j, len(matrice)) == 3):
                     newMatrice[i][j] = 1
@@ -326,4 +328,4 @@ def do_popup(event):
 
 button3.bind("<Button-3>", do_popup)
 
-window.mainloop()
+window.mainloop() # boucle infinie permettant d'afficher la page et d'attendre un évènement
