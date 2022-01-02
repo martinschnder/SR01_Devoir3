@@ -50,7 +50,7 @@ def initialise():
     myGrid = drawGrid(600, taille.get()) # dessin de la grille
     fillGrid(matrice, myGrid) # remplissage de la grille avec la matrice
     button0['state'] = NORMAL # activation du bouton Lancer
-    button2['state'] = NORMAL # activation du bouton Arreter 
+    button1['state'] = NORMAL # activation du bouton Arreter 
 
 
 def nombreVoisins(matrice, x, y, rows):
@@ -123,7 +123,7 @@ def canonplanneur():
     fillGrid(matrice, myGrid) # remplissage de la grille avec notre matrice
     # activation des boutons
     button0['state'] = NORMAL 
-    button2['state'] = NORMAL
+    button1['state'] = NORMAL
 
 
 def galaxiekok():
@@ -156,7 +156,7 @@ def galaxiekok():
     fillGrid(matrice, myGrid) # remplissage de la grille avec notre matrice
     # activation des boutons
     button0['state'] = NORMAL
-    button2['state'] = NORMAL
+    button1['state'] = NORMAL
 
 
 def pulsar():
@@ -191,7 +191,7 @@ def pulsar():
     fillGrid(matrice, myGrid) # remplissage de la grille avec notre matrice
     # activation des boutons
     button0['state'] = NORMAL
-    button2['state'] = NORMAL
+    button1['state'] = NORMAL
 
 
 def penta():
@@ -220,7 +220,7 @@ def penta():
     fillGrid(matrice, myGrid)# remplissage de la grille avec notre matrice
     # activation des boutons
     button0['state'] = NORMAL
-    button2['state'] = NORMAL
+    button1['state'] = NORMAL
 
 
 def start(): # activation lors du clic gauche sur le bouton Lancer
@@ -242,7 +242,7 @@ def run():
         newMatrice = newGeneration(matrice) # création de la matrice de la génération suivante
         fillGrid(newMatrice, myGrid) # remplissage de la grille avec la matrice
         matrice = newMatrice
-        # plus valeur vitesse du scale est grande plus le temps d'attente entre deux lancements de la fonction est faible
+        # plus valeur vitesse du scale est grande plus le temps d'attente entre deux affichages d'une nouvelle génération est faible
         speed = int((1/vitesse.get())*1000)
         window.after(speed, run) # lancement de la fonction run après speed ms
 
@@ -260,31 +260,35 @@ window.title('SR01 Jeu de la vie') # titre de la fenetre
 window.geometry(f"{windowWidth}x{windowHeight}") # dimensions de la fenetre
 window.resizable(height = FALSE, width = FALSE) # empeche l'utilisateur de redimensionner sa fenetre
 
+# nouvelle frame à gauche pour la grille
 gridFrame = Frame(window)
 gridFrame.pack(side=LEFT)
 
+# nouvelle frame à droite pour les boutons
 buttonFrame = Frame(window, width=200, height=600)
-buttonFrame.pack_propagate(False)
+buttonFrame.pack_propagate(False) # les widgets dans la frame n'hériteront pas des propriétés du frame
 buttonFrame.pack(side=RIGHT)
 
 button0 = Button(buttonFrame, text='Lancer', bg='#C0C0C0',
                  fg='#22427C', command=start, state=DISABLED)
 button0.pack(fill=X, side=TOP)
 
+# clic droit sur le boutton Lancer pour afficher uniquement la génération suivante
 button0.bind('<Button-3>', onerun)
 
-button2 = Button(buttonFrame, text='Arreter', bg='#C0C0C0',
+button1 = Button(buttonFrame, text='Arreter', bg='#C0C0C0',
                  fg='#22427C', command=stop, state=DISABLED)
+button1.pack(fill=X, side=TOP)
+
+button2 = Button(buttonFrame, text='Initialiser',
+                 bg='#C0C0C0', fg='#22427C', command=initialise)
 button2.pack(fill=X, side=TOP)
 
-button3 = Button(buttonFrame, text='Initialiser',
-                 bg='#C0C0C0', fg='#22427C', command=initialise)
-button3.pack(fill=X, side=TOP)
-
-button4 = Button(buttonFrame, text='Quitter', bg='#C0C0C0',
+button3 = Button(buttonFrame, text='Quitter', bg='#C0C0C0',
                  fg='#22427C', command=window.quit)
-button4.pack(fill=X, side=BOTTOM)
+button3.pack(fill=X, side=BOTTOM)
 
+# variable pour récupérer la vitesse dans le scale
 vitesse = IntVar()
 
 scale3 = Scale(buttonFrame, orient=HORIZONTAL, fg='#22427C',
@@ -294,6 +298,7 @@ scale3.pack(side=BOTTOM)
 text3 = Label(buttonFrame, text='Vitesse', fg='#22427C')
 text3.pack(side=BOTTOM)
 
+# variable pour récupérer le pourcentage de vie dans le scale
 pcVie = IntVar()
 
 scale2 = Scale(buttonFrame, orient=HORIZONTAL, fg='#22427C',
@@ -303,6 +308,7 @@ scale2.pack(side=BOTTOM)
 text2 = Label(buttonFrame, text='% de Vie', fg='#22427C')
 text2.pack(side=BOTTOM)
 
+# variable pour récupérer la taille dans le scale
 taille = IntVar()
 
 scale1 = Scale(buttonFrame, orient=HORIZONTAL, fg='#22427C',
@@ -312,13 +318,14 @@ scale1.pack(side=BOTTOM)
 text1 = Label(buttonFrame, text='Taille de la grille', fg='#22427C')
 text1.pack(side=BOTTOM)
 
+# menu pour lancer les structures connues
 menu = Menu(window, tearoff=0)
 menu.add_command(label="Canon à planneurs", command=canonplanneur)
 menu.add_command(label="Galaxie de kok", command=galaxiekok)
 menu.add_command(label="Pulsar", command=pulsar)
 menu.add_command(label="Pentadécathlon", command=penta)
 
-
+# affichage du menu en popup à l'endroit x, y
 def do_popup(event):
     try:
         menu.tk_popup(event.x_root, event.y_root)
@@ -326,6 +333,7 @@ def do_popup(event):
         menu.grab_release()
 
 
-button3.bind("<Button-3>", do_popup)
+# affichage du menu au clic droit à n'importe quel endroit du bouton initialiser
+button2.bind("<Button-3>", do_popup)
 
 window.mainloop() # boucle infinie permettant d'afficher la page et d'attendre un évènement
